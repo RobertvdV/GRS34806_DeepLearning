@@ -1,0 +1,60 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Deep Learning Classification Project MGI Vlasakker Zurcher}
+\author{Raphael Zürcher \& Robert van de Vlasakker}
+\date{April 2021}
+
+\usepackage{natbib}
+\usepackage{graphicx}
+\graphicspath{{figures/}}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+- compare resnet34 with own model
+- compare reduction none (sum; mean) > overrepresented classes 
+- why adapted resnet
+- Sigmoid --> because we need multiple classes output
+- Adapted resnet to have 17 output classes
+- Talk about the class distribution
+- adapt epochs > time consumption
+
+
+
+\section{Methods}
+\subsection{Data Class}
+The data set contain 2100 RGB images with a resolution of 256 by 256 and a label file with the image name and their corresponding labels.
+The data set consists of a CVS file and a folder containing different folder (named after their class) containing the images.
+We created a Data Class for the image data set using Pytorch. 
+The Data Class takes to input variables: the image location folder and the CVS file contain the image labels.
+Inside the data class the image location folder is used to read all the image locations.
+These locations are all saved in a list and the list is sorted alphabetically so that is matched the CSV label list.
+The CVS file is opened as a Pandas data frame and the list containing the image locations is added to the data frame as a new column.
+Next, both the image and their corresponding label are loaded as a tensor.
+The image is first transformed to a 256 by 256 tensor just in case. 
+Finally, the Data Class returns both tensors.
+
+\subsection{Loading the Data}
+Because the data is loaded as a custom Pytorch dataset splitting the data into a train set and a test set can be done with the utility tool random\_split().
+We used 80\% for training (1680 samples) and 20\% for testing (420 samples).
+While it is possible to calculate the optimal batch size with \(Max Batch = GPU memory  / 4 / (Tensor Size + Trainable Parameters)\), we use an arbitrary value of 16.
+We are working on Google Colab and we do not know how much GPU memory is located to our Jupyter Notebook and we train different model with different trainable parameters.
+A batch size of 16 is also used because to the power of 2 generally works better \citep{DBLP:journals/corr/KeskarMNST16}.
+The result of loading a single batch is a tensor of [16, 3, 256, 256].
+
+\subsection{Models}
+We use two models in this project; a pretrained ResNet34 model \citep{he2016deep} with adapted linear layer and output layer and a new build from scratch model.
+
+\section{Results}
+\section{Discussion}
+\section{Conclusion}
+
+
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}
